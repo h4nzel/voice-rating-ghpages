@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ses Puanlama — Türkçe Ses Benchmark</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <section id="gate" class="card centered">
+    <h1>🎙️ Ses Puanlama</h1>
+    <p class="muted">Türkçe konuşabilen sesleri 1–10 arasında puanla.<br>İlk açılışta bir isim gir; sonra kaldığın yerden devam et.</p>
+    <input id="name-input" type="text" maxlength="40" placeholder="İsmin (ör. Ali)" autocomplete="off">
+    <button id="start-btn" class="btn primary">Başla</button>
+    <p class="small muted" id="gate-msg"></p>
+  </section>
+
+  <section id="main" class="hidden">
+    <header class="topbar">
+      <div class="userbox">
+        <span class="avatar" id="avatar">?</span>
+        <div><b id="user-name"></b><br><button id="switch-user" class="link">kullanıcı değiştir</button></div>
+      </div>
+      <div class="progress">
+        <div class="progress-text" id="progress-text"></div>
+        <div class="bar"><div class="fill" id="progress-fill"></div></div>
+      </div>
+      <button id="settings-btn" class="btn ghost">Filtreler</button>
+      <button id="board-btn" class="btn primary small">🏆 Liderlik</button>
+    </header>
+
+    <div id="filters" class="panel hidden">
+      <div class="filter-grid">
+        <label>Havuz
+          <select id="f-pool">
+            <option value="turkish">Tümü (Türkçe konuşabilen 7.728)</option>
+            <option value="istanbul">İstanbul aksanı (Türkçe odaklı)</option>
+            <option value="standard">Standard aksan</option>
+          </select>
+        </label>
+        <label>Aksan <select id="f-accent"><option value="">Hepsi</option></select></label>
+        <label>Cinsiyet <select id="f-gender"><option value="">Hepsi</option><option value="male">Erkek</option><option value="female">Kadın</option><option value="neutral">Nötr</option></select></label>
+        <label>Yaş <select id="f-age"><option value="">Hepsi</option><option value="young">Genç</option><option value="middle_aged">Orta yaş</option><option value="old">Yaşlı</option></select></label>
+        <label>Kullanım <select id="f-use"><option value="">Hepsi</option></select></label>
+        <label>Kalite <select id="f-cat"><option value="">Hepsi</option><option value="professional">Profesyonel</option><option value="high_quality">Yüksek kalite</option></select></label>
+      </div>
+      <div class="filter-actions">
+        <button id="apply-filters" class="btn primary small">Filtrele ve baştan başla</button>
+        <button id="filters-cancel" class="btn ghost small">Vazgeç</button>
+      </div>
+    </div>
+
+    <div id="card-wrap">
+      <div id="empty" class="card centered hidden">
+        <h2>Bu havuzdaki her şeyi puanladın! 🎉</h2>
+        <p class="muted" id="sync-note-empty"></p>
+        <div class="row">
+          <button id="to-leaderboard" class="btn primary">Liderlik Tablosu</button>
+          <button id="restart" class="btn ghost">Farklı havuz / filtre</button>
+        </div>
+      </div>
+      <div id="card" class="card hidden">
+        <div class="card-top">
+          <span class="counter" id="counter"></span>
+          <span class="vid" id="v-id"></span>
+          <button id="skip-btn" class="btn ghost small">Atla</button>
+        </div>
+        <h2 id="v-name"></h2>
+        <div class="badges" id="v-badges"></div>
+        <p class="desc" id="v-desc"></p>
+        <audio id="player" controls preload="none" controlsList="nodownload noremoteplayback"></audio>
+        <p class="small muted" id="player-note"></p>
+        <div class="scale">
+          <div class="scale-nums" id="scale-nums"></div>
+          <div class="scale-lab"><span>Kötü</span><span>Harika</span></div>
+        </div>
+      </div>
+    </div>
+
+    <section id="board" class="hidden">
+      <div class="row">
+        <h2>🏆 Liderlik Tablosu <span class="muted small" id="lb-meta"></span></h2>
+        <button id="back-to-rate" class="btn ghost small">← Puanlamaya dön</button>
+        <button id="lb-refresh" class="btn small">Yenile</button>
+      </div>
+      <p class="small muted">Ses satırına tıklayınca önizleme çalınır. Ortalama tüm kullanıcıların puanlarıyla hesaplanır.</p>
+      <table class="board-table">
+        <thead><tr><th>#</th><th>Ses (tıkla → dinle)</th><th>Oy</th><th>Ort.</th><th>Puanlayan</th></tr></thead>
+        <tbody id="board-body"></tbody>
+      </table>
+      <button id="export-btn" class="btn small">Puanlarımı JSON indir</button>
+    </section>
+  </section>
+</div>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
